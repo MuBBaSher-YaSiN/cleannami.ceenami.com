@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const FrequencyComponent = ({ register, setValue, control }) => {
@@ -147,9 +147,9 @@ const FrequencyComponent = ({ register, setValue, control }) => {
               >
                 <div className="flex items-center justify-center">
                   <div className={`h-2 w-2 rounded-full ${option.discount >= 15 ? 'bg-green-500' :
-                      option.discount >= 10 ? 'bg-green-400' :
-                        option.discount > 0 ? 'bg-green-300' :
-                          'bg-gray-300'
+                    option.discount >= 10 ? 'bg-green-400' :
+                      option.discount > 0 ? 'bg-green-300' :
+                        'bg-gray-300'
                     }`}></div>
                 </div>
                 <div className="flex-1">
@@ -177,8 +177,8 @@ const FrequencyComponent = ({ register, setValue, control }) => {
             onMouseEnter={() => setHoveredOption(option.id)}
             onMouseLeave={() => setHoveredOption(null)}
             className={`relative overflow-hidden rounded-lg transition-all py-3 px-2 ${selectedFrequency === option.id
-                ? 'bg-gradient-to-br from-blue-500 to-[#1115ac] text-white border-0 shadow-md'
-                : 'bg-white border border-gray-200 text-gray-700 hover:border-blue-300'
+              ? 'bg-gradient-to-br from-blue-500 to-[#1115ac] text-white border-0 shadow-md'
+              : 'bg-white border border-gray-200 text-gray-700 hover:border-blue-300'
               }`}
             whileHover={{
               y: -3,

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWatch } from 'react-hook-form';
 
@@ -183,8 +183,8 @@ function AddOnsSelector({ register, setValue, control }) {
               onMouseEnter={() => setHoveredAddon(addon.id)}
               onMouseLeave={() => setHoveredAddon(null)}
               className={`relative p-5 rounded-xl cursor-pointer transition-all duration-300 overflow-hidden ${isSelected
-                  ? 'bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-300 shadow-md'
-                  : 'bg-white border border-gray-200 hover:border-blue-200 hover:shadow-sm'
+                ? 'bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-300 shadow-md'
+                : 'bg-white border border-gray-200 hover:border-blue-200 hover:shadow-sm'
                 }`}
               whileHover={{
                 scale: 1.03,

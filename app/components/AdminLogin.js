@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const AdminLogin = ({ onLogin }) => {
   const [username, setUsername] = useState('');

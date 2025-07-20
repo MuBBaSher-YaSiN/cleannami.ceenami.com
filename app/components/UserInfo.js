@@ -1,11 +1,11 @@
-import React from 'react'
+'use client'
 
 function UserInfo({ register }) {
     return (
         <div>
             <>
-                <input {...register('name')} placeholder="Name"  />
-                <input {...register('email')} placeholder="Name"  />
+                <input {...register('name')} placeholder="Name" />
+                <input {...register('email')} placeholder="Name" />
             </>
         </div>
     )

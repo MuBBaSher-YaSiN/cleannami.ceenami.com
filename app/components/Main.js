@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import WhoYouAreForm from './WhoYouAreForm';
 import YourHomeForm from './YourHomeForm';
@@ -11,17 +11,16 @@ import SchedulingComponent from './SchedulingComponent';
 import FrequencyComponent from './FrequencyComponent';
 import AdditionalInformationComponent from './AdditionalInformationComponent';
 import OrderSummaryPopup from './OrderSummaryPopup';
-import Fotter from './Fotter';
 import { db } from '../firebase-config';
 import { collection, addDoc } from 'firebase/firestore';
 
 
 const Main = () => {
-  const basePrice = 100; // Default base price
+  const basePrice = 100;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [orderData, setOrderData] = useState(null);
 
-  const { register, handleSubmit, reset, setValue, control, watch } = useForm({
+  const { register, handleSubmit, setValue, control, watch } = useForm({
     defaultValues: {
       addons: [],
       couponDiscount: 0,
@@ -84,8 +83,6 @@ const Main = () => {
 
   const handleClosePopup = () => {
     setIsPopupOpen(false);
-    // Optional: Reset form after popup closes
-    // reset();
   };
 
   return (
@@ -163,7 +160,6 @@ const Main = () => {
           Book Now
         </button>
       </form>
-      {/* <Fotter /> */}
       {/* Order Summary Popup */}
       <OrderSummaryPopup
         isOpen={isPopupOpen}
