@@ -1,239 +1,36 @@
-// 'use client';
-
-// import React, { useState } from 'react';
-
-// const AdditionalInformationComponent = ({ register, control, watch }) => {
-//   // Options for dropdown selections
-//   const parkingOptions = [
-//     'Street parking', 
-//     'Driveway', 
-//     'Garage', 
-//     'Parking lot', 
-//     'No parking available'
-//   ];
-  
-//   const flexibilityOptions = [
-//     'Yes, my schedule is flexible', 
-//     'No, I need the exact day/time selected', 
-//     'Somewhat flexible (±2 hours)'
-//   ];
-  
-//   const entryOptions = [
-//     'I will be home', 
-//     'Doorman', 
-//     'Key in lockbox', 
-//     'Smart lock code', 
-//     'Hide key somewhere', 
-//     'Neighbor/friend will let them in'
-//   ];
-
-//   const [showParkingOptions, setShowParkingOptions] = useState(false);
-//   const [showFlexibilityOptions, setShowFlexibilityOptions] = useState(false);
-//   const [showEntryOptions, setShowEntryOptions] = useState(false);
-  
-//   // Get the current value of entryMethod for conditional rendering
-//   const entryMethod = watch ? watch('entryMethod') : '';
-
-//   return (
-//     <div className="mb-10 border border-gray-200 rounded p-6 bg-white">
-//       <h2 className="text-lg font-semibold mb-4">Additional Information</h2>
-      
-//       {/* Parking options */}
-//       <div className="mb-6">
-//         <label className="block text-sm mb-2">
-//           Where can your cleaners park? <span className="text-red-500">*</span>
-//         </label>
-//         <div className="relative">
-//           <select
-//             {...register('parking', { required: true })}
-//             className="appearance-none border border-gray-300 w-full px-4 py-2 rounded-md pr-10"
-//             onClick={() => setShowParkingOptions(!showParkingOptions)}
-//           >
-//             <option value="">Select an option</option>
-//             {parkingOptions.map((option) => (
-//               <option key={option} value={option}>
-//                 {option}
-//               </option>
-//             ))}
-//           </select>
-//           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-//             <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-//             </svg>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Flexibility options */}
-//       <div className="mb-6">
-//         <label className="block text-sm mb-2">
-//           Is your day/time flexible? <span className="text-red-500">*</span>
-//         </label>
-//         <div className="relative">
-//           <select
-//             {...register('flexibility', { required: true })}
-//             className="appearance-none border border-gray-300 w-full px-4 py-2 rounded-md pr-10"
-//             onClick={() => setShowFlexibilityOptions(!showFlexibilityOptions)}
-//           >
-//             <option value="">Select an option</option>
-//             {flexibilityOptions.map((option) => (
-//               <option key={option} value={option}>
-//                 {option}
-//               </option>
-//             ))}
-//           </select>
-//           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-//             <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-//             </svg>
-//           </div>
-//         </div>
-//       </div>
-      
-//       {/* Entry options */}
-//       <div className="mb-6">
-//         <label className="block text-sm mb-2">
-//           How can your cleaners get inside your home? <span className="text-red-500">*</span>
-//         </label>
-//         <div className="relative">
-//           <select
-//             {...register('entryMethod', { required: true })}
-//             className="appearance-none border border-gray-300 w-full px-4 py-2 rounded-md pr-10"
-//             onClick={() => setShowEntryOptions(!showEntryOptions)}
-//           >
-//             <option value="">Select an option</option>
-//             {entryOptions.map((option) => (
-//               <option key={option} value={option}>
-//                 {option}
-//               </option>
-//             ))}
-//           </select>
-//           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-//             <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-//             </svg>
-//           </div>
-//         </div>
-        
-//         {/* Conditional follow-up question for specific entry methods */}
-//         {entryMethod && ['Key in lockbox', 'Smart lock code', 'Hide key somewhere'].includes(entryMethod) && (
-//           <div className="mt-3">
-//             <label className="block text-sm mb-2">
-//               Please provide details about access:
-//             </label>
-//             <input
-//               type="text"
-//               {...register('entryDetails')}
-//               placeholder="E.g., lockbox code, location of hidden key, etc."
-//               className="border border-gray-300 px-4 py-2 rounded-md w-full"
-//             />
-//           </div>
-//         )}
-//       </div>
-      
-//       {/* Additional notes */}
-//       <div>
-//         <label className="block text-sm mb-2">
-//           Anything else your cleaners should know about?
-//         </label>
-//         <textarea
-//           {...register('additionalNotes')}
-//           rows={4}
-//           placeholder="No one likes surprises. Please give your cleaners any additional details they should know about your home here."
-//           className="border border-gray-300 px-4 py-2 rounded-md w-full resize-none"
-//         />
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default AdditionalInformationComponent;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 'use client';
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const AdditionalInformationComponent = ({ register, control, watch }) => {
-  // Animation states
   const [focusedField, setFocusedField] = useState(null);
   const [expandedHelp, setExpandedHelp] = useState(null);
-  
+
   // Get the current value of entryMethod for conditional rendering
   const entryMethod = watch ? watch('entryMethod') : '';
 
   // Options for dropdown selections
   const parkingOptions = [
-    'Street parking', 
-    'Driveway', 
-    'Garage', 
-    'Parking lot', 
+    'Street parking',
+    'Driveway',
+    'Garage',
+    'Parking lot',
     'No parking available'
   ];
-  
+
   const flexibilityOptions = [
-    'Yes, my schedule is flexible', 
-    'No, I need the exact day/time selected', 
+    'Yes, my schedule is flexible',
+    'No, I need the exact day/time selected',
     'Somewhat flexible (±2 hours)'
   ];
-  
+
   const entryOptions = [
-    'I will be home', 
-    'Doorman', 
-    'Key in lockbox', 
-    'Smart lock code', 
-    'Hide key somewhere', 
+    'I will be home',
+    'Doorman',
+    'Key in lockbox',
+    'Smart lock code',
+    'Hide key somewhere',
     'Neighbor/friend will let them in'
   ];
 
@@ -259,7 +56,7 @@ const AdditionalInformationComponent = ({ register, control, watch }) => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="mb-10 rounded-xl p-7 bg-gradient-to-br from-white to-blue-50 shadow-lg border border-blue-100"
       initial="hidden"
       animate="visible"
@@ -294,10 +91,10 @@ const AdditionalInformationComponent = ({ register, control, watch }) => {
             Help
           </motion.button>
         </div>
-        
+
         <AnimatePresence>
           {expandedHelp === 'parking' && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
@@ -307,7 +104,7 @@ const AdditionalInformationComponent = ({ register, control, watch }) => {
             </motion.div>
           )}
         </AnimatePresence>
-        
+
         <div className="relative">
           <div className="absolute left-3 top-3 text-[#1115ac]">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -330,9 +127,9 @@ const AdditionalInformationComponent = ({ register, control, watch }) => {
               </option>
             ))}
           </motion.select>
-          <motion.div 
+          <motion.div
             className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2"
-            animate={{ 
+            animate={{
               rotate: focusedField === 'parking' ? 180 : 0,
               color: focusedField === 'parking' ? "#3B82F6" : "#94A3B8"
             }}
@@ -371,9 +168,9 @@ const AdditionalInformationComponent = ({ register, control, watch }) => {
               </option>
             ))}
           </motion.select>
-          <motion.div 
+          <motion.div
             className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2"
-            animate={{ 
+            animate={{
               rotate: focusedField === 'flexibility' ? 180 : 0,
               color: focusedField === 'flexibility' ? "#3B82F6" : "#94A3B8"
             }}
@@ -385,7 +182,7 @@ const AdditionalInformationComponent = ({ register, control, watch }) => {
           </motion.div>
         </div>
       </motion.div>
-      
+
       {/* Entry options */}
       <motion.div variants={itemVariants} className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -412,9 +209,9 @@ const AdditionalInformationComponent = ({ register, control, watch }) => {
               </option>
             ))}
           </motion.select>
-          <motion.div 
+          <motion.div
             className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2"
-            animate={{ 
+            animate={{
               rotate: focusedField === 'entryMethod' ? 180 : 0,
               color: focusedField === 'entryMethod' ? "#3B82F6" : "#94A3B8"
             }}
@@ -425,18 +222,18 @@ const AdditionalInformationComponent = ({ register, control, watch }) => {
             </svg>
           </motion.div>
         </div>
-        
+
         {/* Conditional follow-up question for specific entry methods */}
         <AnimatePresence>
           {entryMethod && ['Key in lockbox', 'Smart lock code', 'Hide key somewhere'].includes(entryMethod) && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: -10, height: 0 }}
               animate={{ opacity: 1, y: 0, height: "auto" }}
               exit={{ opacity: 0, y: -10, height: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
               className="mt-4"
             >
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.1 }}
@@ -449,7 +246,7 @@ const AdditionalInformationComponent = ({ register, control, watch }) => {
                   This information is kept secure and only shared with your assigned cleaner.
                 </p>
               </motion.div>
-              
+
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Please provide details about access:
               </label>
@@ -472,7 +269,7 @@ const AdditionalInformationComponent = ({ register, control, watch }) => {
           )}
         </AnimatePresence>
       </motion.div>
-      
+
       {/* Additional notes */}
       <motion.div variants={itemVariants} className="mb-2">
         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -496,18 +293,18 @@ const AdditionalInformationComponent = ({ register, control, watch }) => {
           />
         </div>
       </motion.div>
-      
+
       {/* Form completion indicator */}
-      <motion.div 
+      <motion.div
         className="flex justify-center mt-6"
         variants={itemVariants}
         animate={{ opacity: 1 }}
       >
-        <motion.div 
+        <motion.div
           className="w-10 h-1 bg-gradient-to-r from-purple-400 to-blue-500 rounded-full"
           initial={{ width: 10 }}
           animate={{ width: [10, 40, 10] }}
-          transition={{ 
+          transition={{
             duration: 2,
             repeat: Infinity,
             repeatType: "reverse"

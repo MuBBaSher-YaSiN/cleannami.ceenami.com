@@ -90,7 +90,7 @@ const Main = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-[95%] lg:w-[80%] mx-auto mt-20 pb-20">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-[95%] lg:w-[80%] mx-auto pb-20">
         <div className='flex max-md:flex-col gap-10 relative'>
           {/* Left Container */}
           <div className='md:w-[70%]'>
@@ -106,7 +106,7 @@ const Main = () => {
 
 
           {/* Order Summary Section - Right Container */}
-          <div className="max-md:mt-10 md:w-[30%] h-full sticky top-28 p-6 bg-gradient-to-br from-white to-blue-300 border border-gray-200 rounded-lg ">
+          <div className="md:w-[30%] h-full sticky top-24 p-6 bg-gradient-to-br from-white to-blue-300 border border-gray-200 rounded-lg ">
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
 
             <div className="space-y-3 mb-6">
