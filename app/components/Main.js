@@ -14,7 +14,6 @@ import OrderSummaryPopup from './OrderSummaryPopup';
 import { db } from '../firebase-config';
 import { collection, addDoc } from 'firebase/firestore';
 
-
 const Main = () => {
   const basePrice = 100;
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -31,23 +30,66 @@ const Main = () => {
     }
   });
 
-  // Watch for changes to calculate price
   const addons = watch('addons') || [];
   const couponDiscount = watch('couponDiscount') || 0;
   const frequencyDiscount = watch('frequencyDiscount') || 0;
   const frequencyLabel = watch('frequencyLabel') || 'One Time';
 
-  // Calculate pricing
   const addonTotal = addons.reduce((sum, addon) => sum + addon.price, 0);
   const subtotal = basePrice + addonTotal;
   const couponDiscountAmount = (subtotal * couponDiscount) / 100;
   const frequencyDiscountAmount = (subtotal * frequencyDiscount) / 100;
   const totalDiscount = couponDiscountAmount + frequencyDiscountAmount;
-  // Ensure price never falls below basePrice
   const finalPrice = Math.max(basePrice, subtotal - totalDiscount);
 
+  // ✅ helper to estimate time and cleaner count
+  const estimateCleaningJob = (homeSize, fullBathrooms, halfBathrooms, bedrooms) => {
+    let time = 0;
+
+    switch (homeSize) {
+      case '0-999':
+        time += 60;
+        break;
+      case '1000-1499':
+        time += 90;
+        break;
+      case '1500-1999':
+        time += 120;
+        break;
+      case '2000-2499':
+        time += 150;
+        break;
+      case '2500+':
+        time += 180;
+        break;
+      default:
+        time += 90;
+    }
+
+    time += parseInt(fullBathrooms || 0) * 20;
+    time += parseInt(halfBathrooms || 0) * 10;
+    time += parseInt(bedrooms || 0) * 15;
+
+    let cleanerCount = 1;
+    if (time > 180) cleanerCount = 3;
+    else if (time > 120) cleanerCount = 2;
+
+    return {
+      estimatedTime: Math.ceil(time),
+      cleanerCount
+    };
+  };
+
   const onSubmit = async (data) => {
-    // Add calculated pricing to the submission data
+    const { homeSize, fullBathrooms, halfBathrooms, bedrooms } = data;
+
+    const { estimatedTime, cleanerCount } = estimateCleaningJob(
+      homeSize,
+      fullBathrooms,
+      halfBathrooms,
+      bedrooms
+    );
+
     const finalData = {
       ...data,
       pricing: {
@@ -58,27 +100,22 @@ const Main = () => {
         frequencyDiscountAmount,
         totalDiscount,
         finalPrice
-      }
+      },
+      estimatedTime,
+      cleanerCount,
+      status: 'open',
+      contractors: []
     };
 
-    // Store order data and open popup
     setOrderData(finalData);
     setIsPopupOpen(true);
 
-    // Note: We'll only reset the form when the user confirms in the popup
-    // console.log('Final Data:', finalData);
     try {
-      // await addDoc(collection(db, 'orders'), finalData);
-      await addDoc(collection(db, 'orders'), {
-        ...finalData,
-        status: 'pending'
-      });
-
+      await addDoc(collection(db, 'orders'), finalData);
       console.log('Data successfully uploaded to Firestore');
     } catch (error) {
       console.error('Error uploading data to Firestore:', error);
     }
-
   };
 
   const handleClosePopup = () => {
@@ -89,7 +126,6 @@ const Main = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="w-[95%] lg:w-[80%] mx-auto pb-20">
         <div className='flex max-md:flex-col gap-10 relative'>
-          {/* Left Container */}
           <div className='md:w-[70%]'>
             <WhoYouAreForm register={register} />
             <YourHomeForm register={register} />
@@ -101,8 +137,6 @@ const Main = () => {
             {/* <CouponCodeComponent register={register} setValue={setValue} control={control} /> */}
           </div>
 
-
-          {/* Order Summary Section - Right Container */}
           <div className="md:w-[30%] h-full sticky top-24 p-6 bg-gradient-to-br from-white to-blue-300 border border-gray-200 rounded-lg ">
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
 
@@ -150,7 +184,6 @@ const Main = () => {
               </p>
             )}
           </div>
-
         </div>
 
         <button
@@ -160,7 +193,7 @@ const Main = () => {
           Book Now
         </button>
       </form>
-      {/* Order Summary Popup */}
+
       <OrderSummaryPopup
         isOpen={isPopupOpen}
         onClose={handleClosePopup}
