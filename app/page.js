@@ -7,7 +7,7 @@ export default function Home() {
     <div>
       <Navbar />
 
-      <h1 className='font-bold text-3xl text-center'>Book a Cleaning or Turnover with CleanNami</h1>
+      <h1 className='font-bold text-xl md:text-2xl lg:text-3xl text-center mt-32'>Book a Cleaning or Turnover with CleanNami</h1>
       <Main />
     </div>
   );

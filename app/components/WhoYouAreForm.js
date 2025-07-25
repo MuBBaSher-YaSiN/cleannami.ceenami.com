@@ -26,7 +26,7 @@ const WhoYouAreForm = ({ register }) => {
 
   return (
     <motion.div
-      className="rounded-xl my-6 p-7 bg-gradient-to-br from-white to-blue-50 shadow-lg border border-blue-100"
+      className="rounded-xl mb-6 p-7 bg-gradient-to-br from-white to-blue-50 shadow-lg border border-blue-100"
       initial="hidden"
       animate="visible"
       variants={containerVariants}
@@ -102,33 +102,6 @@ const WhoYouAreForm = ({ register }) => {
           />
         </motion.div>
       </div>
-
-      {/* Text Message Checkbox */}
-      {/* <motion.div 
-        variants={itemVariants}
-        className="flex items-start gap-3"
-        whileHover={{ scale: 1.01 }}
-      >
-        <div className="relative flex items-center h-5 mt-1">
-          <input
-            type="checkbox"
-            {...register('receiveTextReminders')}
-            className="appearance-none h-5 w-5 border border-blue-200 rounded-md bg-white checked:bg-blue-500 checked:border-blue-500 focus:outline-none transition duration-200 cursor-pointer"
-          />
-          <svg 
-            className="absolute text-white w-3 h-3 pointer-events-none left-1 top-1 opacity-0 peer-checked:opacity-100 transition-opacity" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24" 
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
-          </svg>
-        </div>
-        <label className="text-sm text-gray-600">
-          Send me reminders about my booking<br />via text message
-        </label>
-      </motion.div> */}
     </motion.div>
   );
 };
