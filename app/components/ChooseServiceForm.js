@@ -34,18 +34,7 @@ const ChooseServiceForm = ({ register }) => {
       {/* Header with gradient accent */}
       <motion.div variants={itemVariants} className="relative mb-6">
         <div className="absolute -left-7 top-0 bottom-0 w-2 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
-        <h2 className="text-xl font-bold text-gray-800 mb-2">STEP 3: CHOOSE YOUR SERVICE</h2>
-        <p className="text-sm text-gray-600 mb-2">Describe your home.</p>
-
-        <div className="bg-blue-50 border-l-4 border-blue-300 p-3 rounded-r-lg mb-4">
-          <p className="text-sm text-gray-600 mb-1">
-            Please choose <strong>all the bedrooms in your home</strong> even if you do not need some
-            bedrooms cleaned. You can call us if you only need a partial cleaning.
-          </p>
-          <p className="text-sm text-gray-600">
-            Any extra room, bonus room, office room, etc is considered as an additional bedroom.
-          </p>
-        </div>
+        <h2 className="text-xl font-bold text-gray-800 mb-2">STEP 4: CHOOSE YOUR SERVICE</h2>
       </motion.div>
 
       {/* Service selection grid */}

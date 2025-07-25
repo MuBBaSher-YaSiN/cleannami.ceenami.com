@@ -96,13 +96,37 @@ export default function ContractorJobsPage() {
                 return (
                     <div key={job.id} className="border p-4 mb-4 rounded shadow-sm bg-white">
                         <p><strong>Job ID:</strong> {job.id}</p>
-                        <p><strong>Address:</strong> {job.address}, {job.city}, {job.state}</p>
-                        <p><strong>Date:</strong> {job.scheduledDate} at {job.scheduledTime}</p>
+                        <p><strong>Customer:</strong> {job.firstName} {job.lastName}</p>
+                        <p><strong>Email:</strong> {job.email}</p>
+                        <p><strong>Phone:</strong> {job.phone}</p>
+                        <p><strong>Address:</strong> {job.address}, {job.city}, {job.state}, {job.zip}</p>
+                        <p><strong>Date & Time:</strong> {job.scheduledDate} at {job.scheduledTime}</p>
                         <p><strong>Bedrooms:</strong> {job.bedrooms}</p>
                         <p><strong>Bathrooms:</strong> {job.fullBathrooms} full, {job.halfBathrooms} half</p>
                         <p><strong>Home Size:</strong> {job.homeSize}</p>
+                        <p><strong>Estimated Time:</strong> {job.estimatedTime} mins</p>
                         <p><strong>Cleaners Needed:</strong> {job.cleanerCount}</p>
+                        <p><strong>Frequency:</strong> {job.frequencyLabel} ({job.frequencyDiscount}% off)</p>
+
+                        {job.cleaningType === 'airbnb' && (
+                            <>
+                                <p><strong>Subscription Length:</strong> {job.subscriptionLength} months</p>
+                                <p><strong>Calendar Link:</strong> {job.calendarLink}</p>
+                            </>
+                        )}
+
                         <p><strong>Status:</strong> {job.status}</p>
+
+                        <div className="mt-2">
+                            <strong>Pricing:</strong>
+                            <ul className="list-disc list-inside ml-4">
+                                <li>Base Price: ${job.pricing?.basePrice?.toFixed(2) || '—'}</li>
+                                <li>Add-ons: ${job.pricing?.addonTotal?.toFixed(2) || '—'}</li>
+                                <li>Subtotal: ${job.pricing?.subtotal?.toFixed(2) || '—'}</li>
+                                <li>Discounts: -${job.pricing?.totalDiscount?.toFixed(2) || '—'}</li>
+                                <li>Final Price: <strong>${job.pricing?.finalPrice?.toFixed(2) || '—'}</strong></li>
+                            </ul>
+                        </div>
 
                         {isMine && isCompleted && (
                             <p className="text-green-600 mt-2">Completed. Thank you.</p>
@@ -115,7 +139,7 @@ export default function ContractorJobsPage() {
                         {isMine && !alreadyRequested && !isCompleted && (
                             <button
                                 onClick={() => requestCompletion(job)}
-                                className="mt-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+                                className="mt-3 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
                             >
                                 Mark job completed
                             </button>
@@ -124,7 +148,7 @@ export default function ContractorJobsPage() {
                         {!isMine && isOpen && (
                             <button
                                 onClick={() => handleClaim(job)}
-                                className="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                                className="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                             >
                                 Claim this job
                             </button>

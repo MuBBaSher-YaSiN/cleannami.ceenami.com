@@ -34,7 +34,7 @@ const YourHomeForm = ({ register }) => {
       {/* Header with gradient accent */}
       <motion.div variants={itemVariants} className="relative mb-6">
         <div className="absolute -left-7 top-0 bottom-0 w-2 bg-gradient-to-b from-indigo-400 to-blue-500 rounded-full"></div>
-        <h2 className="text-xl font-bold text-gray-800 mb-1">STEP 2: YOUR HOME</h2>
+        <h2 className="text-xl font-bold text-gray-800 mb-1">STEP 3: YOUR HOME</h2>
         <p className="text-sm text-gray-500">Where would you like the cleaning?</p>
       </motion.div>
 

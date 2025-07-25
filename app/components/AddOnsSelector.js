@@ -160,7 +160,7 @@ function AddOnsSelector({ register, setValue, control }) {
           animate="pulse"
           variants={pulseVariants}
         >
-          STEP 4: Select Add-ons
+          STEP 5: Select Add-ons
         </motion.h2>
         <p className="text-sm text-gray-600 mb-2">
           Customize your cleaning service with these additional options.
