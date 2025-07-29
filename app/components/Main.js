@@ -1,42 +1,42 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import WhoYouAreForm from './WhoYouAreForm';
-import YourHomeForm from './YourHomeForm';
-import ChooseServiceForm from './ChooseServiceForm';
-import AddOnsSelector from './AddOnsSelector';
-import CouponCodeComponent from './CouponCodeComponent';
-import SchedulingComponent from './SchedulingComponent';
-import FrequencyComponent from './FrequencyComponent';
-import AdditionalInformationComponent from './AdditionalInformationComponent';
-import OrderSummaryPopup from './OrderSummaryPopup';
-import { db } from '../firebase-config';
-import { collection, addDoc } from 'firebase/firestore';
-import CleaningTypeForm from './CleaningTypeForm';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import WhoYouAreForm from "./WhoYouAreForm";
+import YourHomeForm from "./YourHomeForm";
+import ChooseServiceForm from "./ChooseServiceForm";
+import AddOnsSelector from "./AddOnsSelector";
+import CouponCodeComponent from "./CouponCodeComponent";
+import SchedulingComponent from "./SchedulingComponent";
+import FrequencyComponent from "./FrequencyComponent";
+import AdditionalInformationComponent from "./AdditionalInformationComponent";
+import OrderSummaryPopup from "./OrderSummaryPopup";
+import { db } from "../firebase-config";
+import { collection, addDoc } from "firebase/firestore";
+import CleaningTypeForm from "./CleaningTypeForm";
 
 const Main = () => {
   const { register, handleSubmit, setValue, control, watch } = useForm({
     defaultValues: {
       addons: [],
       couponDiscount: 0,
-      cleaningType: 'residential',
+      cleaningType: "residential",
       frequencyDiscount: 0,
-      frequency: 'one-time',
-      frequencyLabel: 'One Time',
+      frequency: "one-time",
+      frequencyLabel: "One Time",
       subscriptionLength: 1,
-      calendarLink: ''
-    }
+      calendarLink: "",
+    },
   });
 
-  const bedrooms = watch('bedrooms') || '1';
-  const fullBathrooms = watch('fullBathrooms') || '1';
-  const halfBathrooms = watch('halfBathrooms') || '0';
-  const homeSize = watch('homeSize') || '0-999';
-  const addons = watch('addons') || [];
-  const couponDiscount = watch('couponDiscount') || 0;
-  const frequencyDiscount = watch('frequencyDiscount') || 0;
-  const frequencyLabel = watch('frequencyLabel') || 'One Time';
+  const bedrooms = watch("bedrooms") || "1";
+  const fullBathrooms = watch("fullBathrooms") || "1";
+  const halfBathrooms = watch("halfBathrooms") || "0";
+  const homeSize = watch("homeSize") || "0-999";
+  const addons = watch("addons") || [];
+  const couponDiscount = watch("couponDiscount") || 0;
+  const frequencyDiscount = watch("frequencyDiscount") || 0;
+  const frequencyLabel = watch("frequencyLabel") || "One Time";
 
   // ✅ NEW: Rule-based pricing
   const getBasePrice = (bedrooms, fullBathrooms, halfBathrooms) => {
@@ -58,13 +58,20 @@ const Main = () => {
 
   const getSqFtSurcharge = (sqFtRange) => {
     switch (sqFtRange) {
-      case '0-999': return 0;
-      case '1000-1499': return 25;
-      case '1500-1999': return 50;
-      case '2000-2499': return 75;
-      case '2500-2999': return 100;
-      case '3000+': return 125; // or trigger custom quote UI
-      default: return 0;
+      case "0-999":
+        return 0;
+      case "1000-1499":
+        return 25;
+      case "1500-1999":
+        return 50;
+      case "2000-2499":
+        return 75;
+      case "2500-2999":
+        return 100;
+      case "3000+":
+        return 125; // or trigger custom quote UI
+      default:
+        return 0;
     }
   };
 
@@ -83,15 +90,31 @@ const Main = () => {
   const totalDiscount = couponDiscountAmount + frequencyDiscountAmount;
   const finalPrice = Math.max(basePrice, subtotal - totalDiscount);
 
-  const estimateCleaningJob = (homeSize, fullBathrooms, halfBathrooms, bedrooms) => {
+  const estimateCleaningJob = (
+    homeSize,
+    fullBathrooms,
+    halfBathrooms,
+    bedrooms
+  ) => {
     let time = 0;
     switch (homeSize) {
-      case '0-999': time += 60; break;
-      case '1000-1499': time += 90; break;
-      case '1500-1999': time += 120; break;
-      case '2000-2499': time += 150; break;
-      case '2500+': time += 180; break;
-      default: time += 90;
+      case "0-999":
+        time += 60;
+        break;
+      case "1000-1499":
+        time += 90;
+        break;
+      case "1500-1999":
+        time += 120;
+        break;
+      case "2000-2499":
+        time += 150;
+        break;
+      case "2500+":
+        time += 180;
+        break;
+      default:
+        time += 90;
     }
     time += parseInt(fullBathrooms || 0) * 20;
     time += parseInt(halfBathrooms || 0) * 10;
@@ -101,13 +124,18 @@ const Main = () => {
     else if (time > 120) cleanerCount = 2;
     return {
       estimatedTime: Math.ceil(time),
-      cleanerCount
+      cleanerCount,
     };
   };
 
   const onSubmit = async (data) => {
     const { homeSize, fullBathrooms, halfBathrooms, bedrooms } = data;
-    const { estimatedTime, cleanerCount } = estimateCleaningJob(homeSize, fullBathrooms, halfBathrooms, bedrooms);
+    const { estimatedTime, cleanerCount } = estimateCleaningJob(
+      homeSize,
+      fullBathrooms,
+      halfBathrooms,
+      bedrooms
+    );
     const finalData = {
       ...data,
       pricing: {
@@ -117,20 +145,20 @@ const Main = () => {
         couponDiscountAmount,
         frequencyDiscountAmount,
         totalDiscount,
-        finalPrice
+        finalPrice,
       },
       estimatedTime,
       cleanerCount,
-      status: 'open',
-      contractors: []
+      status: "open",
+      contractors: [],
     };
     setOrderData(finalData);
     setIsPopupOpen(true);
     try {
-      await addDoc(collection(db, 'orders'), finalData);
-      console.log('Data successfully uploaded to Firestore');
+      await addDoc(collection(db, "orders"), finalData);
+      console.log("Data successfully uploaded to Firestore");
     } catch (error) {
-      console.error('Error uploading data to Firestore:', error);
+      console.error("Error uploading data to Firestore:", error);
     }
   };
 
@@ -138,21 +166,36 @@ const Main = () => {
     setIsPopupOpen(false);
   };
 
-  const showCustomQuoteWarning = homeSize === '3000+';
+  const showCustomQuoteWarning = homeSize === "3000+";
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} className="w-[95%] lg:w-[80%] mx-auto pb-10">
-        <div className='flex max-md:flex-col gap-10 relative mt-16'>
-          <div className='md:w-[70%]'>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-[95%] lg:w-[80%] mx-auto pb-10"
+      >
+        <div className="flex max-md:flex-col gap-10 relative mt-16">
+          <div className="md:w-[70%]">
             <WhoYouAreForm register={register} />
             <CleaningTypeForm register={register} />
             <YourHomeForm register={register} />
             <ChooseServiceForm register={register} />
-            <AddOnsSelector register={register} setValue={setValue} control={control} />
+            <AddOnsSelector
+              register={register}
+              setValue={setValue}
+              control={control}
+            />
             <SchedulingComponent register={register} setValue={setValue} />
-            <FrequencyComponent register={register} setValue={setValue} control={control} />
-            <AdditionalInformationComponent register={register} control={control} watch={watch} />
+            <FrequencyComponent
+              register={register}
+              setValue={setValue}
+              control={control}
+            />
+            <AdditionalInformationComponent
+              register={register}
+              control={control}
+              watch={watch}
+            />
           </div>
 
           <div className="md:w-[30%] h-full sticky top-0 p-6 bg-gradient-to-br from-white to-blue-300 border border-gray-200 rounded-lg ">
@@ -178,7 +221,9 @@ const Main = () => {
 
               {frequencyDiscount > 0 && (
                 <div className="flex justify-between text-green-600">
-                  <span>{frequencyLabel} Discount ({frequencyDiscount}%):</span>
+                  <span>
+                    {frequencyLabel} Discount ({frequencyDiscount}%):
+                  </span>
                   <span>-${frequencyDiscountAmount.toFixed(2)}</span>
                 </div>
               )}
