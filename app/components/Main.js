@@ -24,59 +24,54 @@ const Main = () => {
       frequencyDiscount: 0,
       frequency: 'one-time',
       frequencyLabel: 'One Time',
-      cleaningType: 'residential',
       subscriptionLength: 1,
       calendarLink: ''
     }
   });
 
-  const bedrooms = watch('bedrooms') || '0';
+  const bedrooms = watch('bedrooms') || '1';
   const fullBathrooms = watch('fullBathrooms') || '1';
+  const halfBathrooms = watch('halfBathrooms') || '0';
   const homeSize = watch('homeSize') || '0-999';
   const addons = watch('addons') || [];
   const couponDiscount = watch('couponDiscount') || 0;
   const frequencyDiscount = watch('frequencyDiscount') || 0;
   const frequencyLabel = watch('frequencyLabel') || 'One Time';
-  const cleaningType = watch('cleaningType') || 'residential'
 
+  // ✅ NEW: Rule-based pricing
+  const getBasePrice = (bedrooms, fullBathrooms, halfBathrooms) => {
+    const bedCount = parseInt(bedrooms) || 1;
+    const fullBathCount = parseInt(fullBathrooms) || 1;
+    const halfBathCount = parseInt(halfBathrooms) || 0;
 
-  const basePriceMatrix = {
-    '0': { '1': 100, '2': 130, '3': 160, '4': 190, '5+': 220 },
-    '1': { '1': 110, '2': 140, '3': 170, '4': 200, '5+': 230 },
-    '2': { '1': 120, '2': 150, '3': 180, '4': 210, '5+': 240 },
-    '3': { '1': 130, '2': 160, '3': 190, '4': 220, '5+': 250 },
-    '4': { '1': 140, '2': 170, '3': 200, '4': 230, '5+': 260 },
-    '5+': { '1': 160, '2': 190, '3': 220, '4': 250, '5+': 280 },
+    const base = 100; // 1 bed, 1 bath
+    const extraBedrooms = Math.max(0, bedCount - 1);
+    const extraFullBaths = Math.max(0, fullBathCount - 1);
+    const extraHalfBaths = halfBathCount;
+
+    const bedPrice = extraBedrooms * 30;
+    const fullBathPrice = extraFullBaths * 20;
+    const halfBathPrice = extraHalfBaths * 10;
+
+    return base + bedPrice + fullBathPrice + halfBathPrice;
   };
 
-  const squareFootageSurcharge = {
-    '0-999': 0,
-    '1000-1499': 25,
-    '1500-1999': 50,
-    '2000-2499': 75,
-    '2500-2999': 100,
-    '3000+': 0
-  };
-
-  const getBasePrice = (bed, bath) => {
-    const bedKey = bed.includes('+') ? '5+' : bed.replace(/\D/g, '') || '0';
-    const bathKey = bath.includes('+') ? '5+' : bath.replace(/\D/g, '') || '1';
-    return basePriceMatrix[bedKey]?.[bathKey] || 100;
-  };
-
-  // const getSqFtSurcharge = (sqFtRange) => {
-  //   return squareFootageSurcharge[sqFtRange] || 0;
-  // };
   const getSqFtSurcharge = (sqFtRange) => {
-    return squareFootageSurcharge.hasOwnProperty(sqFtRange)
-      ? squareFootageSurcharge[sqFtRange]
-      : 0;
+    switch (sqFtRange) {
+      case '0-999': return 0;
+      case '1000-1499': return 25;
+      case '1500-1999': return 50;
+      case '2000-2499': return 75;
+      case '2500-2999': return 100;
+      case '3000+': return 125; // or trigger custom quote UI
+      default: return 0;
+    }
   };
 
-
-  const baseFromMatrix = getBasePrice(bedrooms, fullBathrooms);
+  // ✅ Use updated rule-based pricing
+  const baseFromRules = getBasePrice(bedrooms, fullBathrooms, halfBathrooms);
   const sqFtCharge = getSqFtSurcharge(homeSize);
-  const basePrice = baseFromMatrix + sqFtCharge;
+  const basePrice = baseFromRules + sqFtCharge;
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [orderData, setOrderData] = useState(null);
@@ -143,6 +138,8 @@ const Main = () => {
     setIsPopupOpen(false);
   };
 
+  const showCustomQuoteWarning = homeSize === '3000+';
+
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} className="w-[95%] lg:w-[80%] mx-auto pb-10">
@@ -199,9 +196,9 @@ const Main = () => {
               <span>${finalPrice.toFixed(2)}</span>
             </div>
 
-            {frequencyDiscount > 0 && (
-              <p className="mt-3 text-sm text-gray-600 italic">
-                * This price applies to each recurring cleaning.
+            {showCustomQuoteWarning && (
+              <p className="mt-3 text-sm text-red-600 italic">
+                * For homes over 3000 sq ft, a custom quote may apply.
               </p>
             )}
           </div>

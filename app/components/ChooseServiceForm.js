@@ -119,16 +119,17 @@ const ChooseServiceForm = ({ register }) => {
               <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
             </svg>
           </div>
-          <select
-            {...register('homeSize')}
-            className="appearance-none pl-10 w-full bg-white border border-blue-100 rounded-lg px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#1115ac] focus:border-transparent shadow-sm hover:shadow-md"
-          >
-            <option value="0-999">0 - 999 Sq Ft</option>
-            <option value="1000-1999">1000 - 1999 Sq Ft</option>
-            <option value="2000-2999">2000 - 2999 Sq Ft</option>
-            <option value="3000-3999">3000 - 3999 Sq Ft</option>
-            <option value="4000+">4000+ Sq Ft</option>
-          </select>
+          <select {...register('homeSize')}
+                      className="appearance-none pl-10 w-full bg-white border border-blue-100 rounded-lg px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#1115ac] focus:border-transparent shadow-sm hover:shadow-md"
+>
+  <option value="0-999">0 - 999 Sq Ft</option>
+  <option value="1000-1499">1000 - 1499 Sq Ft</option>
+  <option value="1500-1999">1500 - 1999 Sq Ft</option>
+  <option value="2000-2499">2000 - 2499 Sq Ft</option>
+  <option value="2500-2999">2500 - 2999 Sq Ft</option>
+  <option value="3000+">3000+ Sq Ft</option>
+</select>
+
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#1115ac]">
             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
               <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
