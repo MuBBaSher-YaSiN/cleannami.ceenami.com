@@ -31,7 +31,7 @@ export default function Navbar() {
                         className="rounded-full"
                         priority
                     />
-                       <span className="text-xl font-bold tracking-wide" style={{ fontFamily: 'Arkhip, sans-serif' }}>
+                       <span className="text-xl font-bold tracking-wide" style={{ fontFamily: 'Arkhip' }}>
                          CleanNami
                        </span>
 
