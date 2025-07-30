@@ -198,7 +198,7 @@ const Main = () => {
             />
           </div>
 
-          <div className="md:w-[30%] h-full sticky top-0 p-6 bg-gradient-to-br from-white to-blue-300 border border-gray-200 rounded-lg ">
+          <div className="md:w-[30%] mt-20 h-full sticky top-0 p-6 bg-gradient-to-br from-white to-blue-300 border border-gray-200 rounded-lg ">
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
 
             <div className="space-y-3 mb-6">
