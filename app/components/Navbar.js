@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { FiMenu, FiX } from 'react-icons/fi'
 import Image from 'next/image'
-import logo from "../assets/logo.jpg"
+import logo from "../assets/logo.png"
 import Link from 'next/link'
 
 export default function Navbar() {
@@ -31,9 +31,9 @@ export default function Navbar() {
                         className="rounded-full"
                         priority
                     />
-                       <span className="text-xl font-bold tracking-wide" style={{ fontFamily: 'Arkhip' }}>
-                         CleanNami
-                       </span>
+                    <span className="text-xl font-bold tracking-wide" style={{ fontFamily: 'Arkhip' }}>
+                        CleanNami
+                    </span>
 
                 </Link>
 
