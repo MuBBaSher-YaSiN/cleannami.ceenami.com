@@ -10,6 +10,7 @@ import {
 } from "@stripe/react-stripe-js";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+console.log("Publishable key:", process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 function CheckoutForm({ finalPrice }) {
   const stripe = useStripe();
@@ -19,7 +20,6 @@ function CheckoutForm({ finalPrice }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     // Create PaymentIntent on server
     const res = await fetch("/api/create-payment-intent", {
       method: "POST",
@@ -33,7 +33,6 @@ function CheckoutForm({ finalPrice }) {
       setLoading(false);
       return;
     }
-
     // Confirm payment
     const result = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
@@ -43,8 +42,10 @@ function CheckoutForm({ finalPrice }) {
 
     if (result.error) {
       alert(result.error.message);
+window.location.href = "/payment/error"; // redirect to error page
     } else if (result.paymentIntent.status === "succeeded") {
       alert("✅ Payment successful!");
+window.location.href = "/payment/success"; // redirect to success page
     }
 
     setLoading(false);
