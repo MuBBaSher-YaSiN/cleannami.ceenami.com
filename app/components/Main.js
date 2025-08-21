@@ -152,14 +152,23 @@ const Main = () => {
       status: "open",
       contractors: [],
     };
-    setOrderData(finalData);
-    setIsPopupOpen(true);
+    // setOrderData(finalData);
+    // setIsPopupOpen(true);
+    // try {
+    //   await addDoc(collection(db, "orders"), finalData);
+    //   console.log("Data successfully uploaded to Firestore");
+    // } catch (error) {
+    //   console.error("Error uploading data to Firestore:", error);
+    // }
     try {
-      await addDoc(collection(db, "orders"), finalData);
-      console.log("Data successfully uploaded to Firestore");
-    } catch (error) {
-      console.error("Error uploading data to Firestore:", error);
-    }
+    const docRef = await addDoc(collection(db, "orders"), finalData);
+    console.log("Order saved with ID:", docRef.id);
+
+    setOrderData({ ...finalData, id: docRef.id }); // keep orderId in state
+    setIsPopupOpen(true);
+  } catch (error) {
+    console.error("Error uploading data to Firestore:", error);
+  }
   };
 
   const handleClosePopup = () => {

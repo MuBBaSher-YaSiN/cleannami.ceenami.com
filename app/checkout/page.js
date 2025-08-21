@@ -1,79 +1,38 @@
-"use client";
+'use client'
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/app/firebase-config";
+import { useEffect, useState } from "react";
+import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-} from "@stripe/react-stripe-js";
-
+import CheckoutForm from "./CheckoutForm";
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
-console.log("Publishable key:", process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
-
-function CheckoutForm({ finalPrice }) {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    // Create PaymentIntent on server
-    const res = await fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: finalPrice }),
-    });
-
-    const { clientSecret, error } = await res.json();
-    if (error) {
-      alert(error);
-      setLoading(false);
-      return;
-    }
-    // Confirm payment
-    const result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-      },
-    });
-
-    if (result.error) {
-      alert(result.error.message);
-window.location.href = "/payment/error"; // redirect to error page
-    } else if (result.paymentIntent.status === "succeeded") {
-      alert("✅ Payment successful!");
-window.location.href = "/payment/success"; // redirect to success page
-    }
-
-    setLoading(false);
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto p-4">
-      {/* No amount input anymore! */}
-      <div className="p-2 border rounded">
-        <CardElement />
-      </div>
-      <button
-        disabled={!stripe || loading}
-        className="w-full bg-blue-600 text-white p-2 rounded"
-      >
-        {loading ? "Processing..." : `Pay $${finalPrice}`}
-      </button>
-    </form>
-  );
-}
-
-
-export default function CheckoutPage({ orderData }) {
+export default function CheckoutPage() {
   const searchParams = useSearchParams();
-  const finalPrice = parseFloat(searchParams.get("amount")) || 100;
+  const orderId = searchParams.get("orderId");
+
+  const [orderData, setOrderData] = useState(null);
+
+  useEffect(() => {
+    if (!orderId) return;
+    const fetchOrder = async () => {
+      const docRef = doc(db, "orders", orderId);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setOrderData({ id: docSnap.id, ...docSnap.data() });
+      }
+    };
+    fetchOrder();
+  }, [orderId]);
+
+  if (!orderData) return <p>Loading order...</p>;
+
   return (
-     <Elements stripe={stripePromise}>
-      <CheckoutForm finalPrice={finalPrice} />
+    <Elements stripe={stripePromise}>
+      <CheckoutForm
+        orderId={orderData.id}
+        finalPrice={orderData.pricing.finalPrice}
+      />
     </Elements>
   );
 }

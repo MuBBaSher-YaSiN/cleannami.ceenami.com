@@ -211,11 +211,10 @@ const OrderSummaryPopup = ({ isOpen, onClose, orderData }) => {
     {/* checkout btn */}
       <div className="px-6 pb-6">
               <button
-                onClick={() => {
-  const amount = finalPrice; // from orderData.pricing.finalPrice
-  window.location.href = `/checkout?amount=${amount}`;
+           onClick={() => {
+  window.location.href = `/checkout?orderId=${orderData.id}`;
 }}
-
+                // onClick={() => window.location.href = "/checkout"}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-md transition"
               >
                 Proceed to Checkout
