@@ -1,5 +1,5 @@
 "use client";
-
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
@@ -69,9 +69,11 @@ window.location.href = "/payment/success"; // redirect to success page
 
 
 export default function CheckoutPage({ orderData }) {
+  const searchParams = useSearchParams();
+  const finalPrice = parseFloat(searchParams.get("amount")) || 100;
   return (
-    <Elements stripe={stripePromise}>
-      <CheckoutForm finalPrice={orderData?.pricing?.finalPrice || 100} />
+     <Elements stripe={stripePromise}>
+      <CheckoutForm finalPrice={finalPrice} />
     </Elements>
   );
 }
